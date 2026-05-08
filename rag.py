@@ -2,15 +2,16 @@ from langchain_community.document_loaders import DirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.prompts import PromptTemplate
 from langchain_community.vectorstores import FAISS
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline,GenerationConfig
 from langchain_classic.chains import RetrievalQA
-from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
+from langchain_huggingface import HuggingFaceEmbeddings,HuggingFacePipeline
+import torch
 
 # 定义文件所在的路径
 DOC_PATH = "./docs"
 
 # 使用 DirectoryLoader 从指定路径加载文件。"*.md" 表示加载所有 .md 格式的文件，这里仅导入文章 10（避免文章 20 的演示内容对结果的影响）
-loader = DirectoryLoader(DOC_PATH, glob="*.md")
+loader = DirectoryLoader(DOC_PATH, glob="test.md")
 
 # 加载目录中的指定的 .md 文件并将其转换为文档对象列表
 documents = loader.load()
@@ -54,8 +55,14 @@ model_path = './Qwen3.5-0.8B'
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(
     model_path,
-    torch_dtype="auto",  # 自动选择模型的权重数据类型
-    device_map="auto",   # 自动选择可用的设备（CPU/GPU）
+    torch_dtype=torch.float16,
+    device_map="auto",
+    low_cpu_mem_usage=True,
+)
+
+gen_config = GenerationConfig(
+    max_length=4096,    # 指定生成文本的最大长度
+    pad_token_id=tokenizer.eos_token_id
 )
 
 # 创建文本生成管道
@@ -63,8 +70,9 @@ generator = pipeline(
     "text-generation",  # 指定任务类型为文本生成
     model=model,
     tokenizer=tokenizer,
-    max_length=4096,    # 指定生成文本的最大长度
-    pad_token_id=tokenizer.eos_token_id
+    # max_length=4096,    # 指定生成文本的最大长度
+    # pad_token_id=tokenizer.eos_token_id
+    # generation_config=gen_config
 )
 
 # 包装为 LangChain 的 LLM 接口
@@ -89,7 +97,7 @@ qa_chain = RetrievalQA.from_chain_type(
 )
 
 # 提出问题
-query = "T西游记是什么？"
+query = "西游记是什么？"
 
 # 获取答案
 answer = qa_chain.invoke(query)
