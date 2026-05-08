@@ -71,8 +71,8 @@ generator = pipeline(
     model=model,
     tokenizer=tokenizer,
     # max_length=4096,    # 指定生成文本的最大长度
-    # pad_token_id=tokenizer.eos_token_id
-    max_new_tokens=10,
+    pad_token_id=tokenizer.eos_token_id
+    # max_new_tokens=10,
 )
 
 # 包装为 LangChain 的 LLM 接口
