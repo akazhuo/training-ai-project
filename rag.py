@@ -11,7 +11,7 @@ import torch
 DOC_PATH = "./docs"
 
 # 使用 DirectoryLoader 从指定路径加载文件。"*.md" 表示加载所有 .md 格式的文件，这里仅导入文章 10（避免文章 20 的演示内容对结果的影响）
-loader = DirectoryLoader(DOC_PATH, glob="test.md")
+loader = DirectoryLoader(DOC_PATH, glob="西游记.md")
 
 # 加载目录中的指定的 .md 文件并将其转换为文档对象列表
 documents = loader.load()
@@ -72,7 +72,7 @@ generator = pipeline(
     tokenizer=tokenizer,
     # max_length=4096,    # 指定生成文本的最大长度
     # pad_token_id=tokenizer.eos_token_id
-    # generation_config=gen_config
+    max_new_tokens=10,
 )
 
 # 包装为 LangChain 的 LLM 接口
