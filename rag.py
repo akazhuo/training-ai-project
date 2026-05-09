@@ -27,7 +27,7 @@ docs = text_splitter.split_documents(documents)
 
 # 生成嵌入（使用 Hugging Face 模型）
 # 指定要加载的预训练模型的名称，参考排行榜：https://huggingface.co/spaces/mteb/leaderboard
-model_name = "./Qwen3-Embedding-0.6B"
+model_name = "./models/Qwen3-Embedding-0.6B"
 
 # 创建 Hugging Face 的嵌入模型实例，这个模型将用于将文本转换为向量表示（embedding）
 embedding_model = HuggingFaceEmbeddings(model_name=model_name)
@@ -47,7 +47,7 @@ retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
 # 加载文本生成模型
 # 本地
-model_path = './Qwen3.5-0.8B'
+model_path = './models/Qwen2.5-7B-Instruct'
 # 远程
 #model_path = 'neuralmagic/Mistral-7B-Instruct-v0.3-GPTQ-4bit'
 
@@ -71,7 +71,8 @@ generator = pipeline(
     model=model,
     tokenizer=tokenizer,
     # max_length=4096,    # 指定生成文本的最大长度
-    pad_token_id=tokenizer.eos_token_id
+    pad_token_id=tokenizer.eos_token_id,
+    max_new_tokens=512
     # max_new_tokens=10,
 )
 

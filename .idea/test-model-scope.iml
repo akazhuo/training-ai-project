@@ -3,8 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
-      <excludeFolder url="file://$MODULE_DIR$/Qwen3-Embedding-0.6B" />
-      <excludeFolder url="file://$MODULE_DIR$/Qwen3.5-0.8B" />
+      <excludeFolder url="file://$MODULE_DIR$/models" />
     </content>
     <orderEntry type="jdk" jdkName="modelscope" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
