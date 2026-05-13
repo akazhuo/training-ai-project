@@ -1,7 +1,7 @@
 from langchain_community.document_loaders import DirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.prompts import PromptTemplate
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS,Chroma
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline,GenerationConfig
 from langchain_classic.chains import RetrievalQA
 from langchain_huggingface import HuggingFaceEmbeddings,HuggingFacePipeline
@@ -35,12 +35,16 @@ embedding_model = HuggingFaceEmbeddings(model_name=model_name)
 # 建立向量数据库
 vectorstore = FAISS.from_documents(docs, embedding_model)
 
+# 持久化数据
+# docsearch = Chroma.from_documents(documents, embeddings, persist_directory="./vector_store")
+# docsearch.persist()
+
 # 保存向量数据库（可选）
-#vectorstore.save_local("faiss_index")
+vectorstore.save_local("faiss_index")
 
 # 加载向量数据库（可选）
 # 注意参数 allow_dangerous_deserialization，确保你完全信任需要加载的数据库（当然，自己生成的不需要考虑这一点）
-#vectorstore = FAISS.load_local("faiss_index", embedding_model, allow_dangerous_deserialization=True)
+vectorstore = FAISS.load_local("faiss_index", embedding_model, allow_dangerous_deserialization=True)
 
 # 创建检索器
 retriever = vectorstore.as_retriever(search_kwargs={"k": 3})

@@ -1,7 +1,7 @@
 from transformers  import AutoModelForCausalLM, AutoTokenizer
 import torch
 
-model_name = "./Qwen3.5-0.8B"
+model_name = "./models/Qwen2.5-7B-Instruct"
 device = "cpu" # the device to load the model onto
 
 model = AutoModelForCausalLM.from_pretrained(
