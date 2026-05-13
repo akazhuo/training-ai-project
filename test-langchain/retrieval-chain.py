@@ -1,3 +1,6 @@
+#!pip install beautifulsoup4
+#!pip install faiss-cpu
+
 import os
 os.environ["USER_AGENT"] = "MyCoolApp/1.0"
 
