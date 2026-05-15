@@ -11,7 +11,7 @@ import torch
 DOC_PATH = "./docs"
 
 # 使用 DirectoryLoader 从指定路径加载文件。"*.md" 表示加载所有 .md 格式的文件，这里仅导入文章 10（避免文章 20 的演示内容对结果的影响）
-loader = DirectoryLoader(DOC_PATH, glob="西游记.md")
+loader = DirectoryLoader(DOC_PATH, glob="book_utf8-top500.txt")
 
 # 加载目录中的指定的 .md 文件并将其转换为文档对象列表
 documents = loader.load()
@@ -102,7 +102,7 @@ qa_chain = RetrievalQA.from_chain_type(
 )
 
 # 提出问题
-query = "西游记是什么？"
+query = "韩立是如何进入七玄门的？"
 
 # 获取答案
 answer = qa_chain.invoke(query)

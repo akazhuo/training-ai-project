@@ -14,8 +14,8 @@ from langchain_classic.chains import create_retrieval_chain
 from langchain_core.prompts import ChatPromptTemplate
 
 # 第一步：初始化模型对象：LLM，Embedding
-llm = OllamaLLM(model="qwen")
-embeddings = OllamaEmbeddings(model="qwen")
+llm = OllamaLLM(model="qwen:1.8b")
+embeddings = OllamaEmbeddings(model="qwen:1.8b")
 response1 = llm.invoke("langsmith是做什么的？")
 print(f"检索前：{response1}")
 # 第二步：获取数据
